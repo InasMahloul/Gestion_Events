@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Liste des participants</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .custom-sidebar {
+            background-color: #000080;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 257px;
+            overflow-x: hidden;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            transition: width 0.3s;
+        }
+        .custom-sidebar a {
+            display: block;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .custom-sidebar a:hover {
+            background-color: #FFFAFA;
+            color: #000080;
+        }
+        .custom-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        @media (max-width: 768px) {
+            .custom-sidebar {
+                width: 70px;
+            }
+            .custom-sidebar a {
+                padding: 10px;
+                text-align: center;
+            }
+            .custom-content {
+                margin-left: 70px;
+            }
+        }
+
+        /* Style pour la table */
+        .table-container {
+            height: 350px; /* Hauteur fixe */
+            overflow-y: auto; /* Défilement vertical */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);  /* Ombre légère */
+            border-radius: 8px; /* Coins arrondis */
+            margin-bottom: 20px; /* Marge en bas */
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 0; /* Supprimer la marge inférieure */
+        }
+
+        /* Style pour les en-têtes de colonnes */
+        .table th {
+            background-color: #778899; /* Couleur de fond */
+            color: #fff; /* Couleur du texte */
+            font-weight: bold; /* Police en gras */
+            padding: 12px 15px;
+        }
+
+        /* Style pour les lignes de données */
+        .table td {
+            background-color: #f9f9f9; /* Couleur de fond */
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="custom-sidebar">
+    <h3 style="color: #fff; text-align: center;">Espace Admin</h3>
+    <br>
+    <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link" href="/addEvent"><i class="fas fa-plus" aria-hidden="true"></i>&nbsp;Ajouter un événement</a></li>
+        <li class="nav-item"><a class="nav-link" href="/getEventsList"><i class="fa-solid fa-list"></i>&nbsp;Liste des événements</a></li>
+        <li class="nav-item"><a class="nav-link" href="/addOrganisateur"><i class="fas fa-user-plus"></i>&nbsp;Ajouter un organisateur</a></li>
+        <li class="nav-item"><a class="nav-link" href="/listOrganisateurs"><i class="fas fa-users-gear"></i>&nbsp;Liste des organisateurs</a></li>
+        <li class="nav-item"><a class="nav-link" href="/listParticipants"><i class="fas fa-users"></i>&nbsp;Liste des participants</a></li>
+        <br><br><br><br><br><br><br><br><br><br>
+        <li class="nav-item"><a class="nav-link" href="/accueil"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;Déconnexion</a></li>
+    </ul>
+</div>
+<div class="custom-content">
+    <center><h2 style="color: #00008B;">Liste des participants</h2></center>
+    <br><br>
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID Participant</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Type de billet</th>
+                <th>Événement</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="participant : ${listParticipants}">
+                <td th:text="${participant.id}"></td>
+                <td th:text="${participant.name}"></td>
+                <td th:text="${participant.email}"></td>
+                <td th:text="${participant.telephone}"></td>
+                <td th:text="${participant.type_ticket}"></td>
+                <td th:text="${participant.event_name}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+</div>
+</body>
+</html>

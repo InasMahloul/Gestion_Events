@@ -1,0 +1,28 @@
+package ma.xproce.events12.dao.entities;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import ma.xproce.events12.dao.entities.Event;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+
+public class Participant {
+    @Id
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+    private String email;
+    private String telephone;
+    private String type_ticket;
+    private String event_name;
+
+    @ManyToOne
+    private Event event;
+
+}

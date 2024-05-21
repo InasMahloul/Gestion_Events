@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifier un événement</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .custom-sidebar {
+            background-color: #000080; /* Couleur de fond */
+            padding: 20px; /* Espacement intérieur */
+            height: 100vh; /* Hauteur 100% de la vue */
+            position: fixed; /* Position fixe */
+            top: 0; /* Aligné en haut */
+            left: 0; /* Aligné à gauche */
+            width: 257px; /* Largeur du menu */
+            overflow-x: hidden; /* Masquer le défilement horizontal */
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Ombre légère */
+            transition: width 0.3s; /* Transition fluide pour l'animation */
+        }
+        .custom-sidebar a {
+            display: block;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .custom-sidebar a:hover {
+            background-color: #FFFAFA;
+            color: #000080;
+        }
+        /* Styles pour le contenu principal */
+        .custom-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        /* Media query pour rendre le menu réactif */
+        @media (max-width: 768px) {
+            .custom-sidebar {
+                width: 70px; /* Réduire la largeur du menu */
+            }
+            .custom-sidebar a {
+                padding: 10px; /* Réduire l'espacement interne des liens */
+                text-align: center; /* Centrer le texte */
+            }
+            .custom-content {
+                margin-left: 70px; /* Ajuster la marge à gauche */
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="custom-sidebar">
+    <h3 style="color: #fff; text-align: center;">Espace Admin</h3>
+    <br>
+    <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link" href="/addEvent"><i class="fas fa-plus" aria-hidden="true"></i>&nbsp;Ajouter un événement</a></li>
+        <li class="nav-item"><a class="nav-link" href="/getEventsList"><i class="fa-solid fa-list"></i>&nbsp;Liste des événements</a></li>
+        <li class="nav-item"><a class="nav-link" href="/addOrganisateur"><i class="fas fa-user-plus"></i>&nbsp;Ajouter un organisateur</a></li>
+        <li class="nav-item"><a class="nav-link" href="/listOrganisateurs"><i class="fas fa-users-gear"></i>&nbsp;Liste des organisateurs</a></li>
+        <li class="nav-item"><a class="nav-link" href="/listParticipants"><i class="fas fa-users"></i>&nbsp;Liste des participants</a></li>
+        <br> <br><br> <br><br> <br><br> <br><br> <br><br>
+        <li class="nav-item"><a class="nav-link" href="/accueil"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;Déconnexion</a></li>
+    </ul>
+</div>
+<div class="custom-content">
+    <div class="container mt-5">
+        <h1 class="text-center">Modifier un événement</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form action="/editEvent" method="post">
+                    <input type="hidden" name="id" th:value="${eventToBeUpdated.getId()}">
+                    <div class="form-group">
+                        <label for="name">Nom:</label>
+                        <input id="name" class="form-control" name="name" type="text"
+                               th:value="${eventToBeUpdated.getName()}">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <input id="description" class="form-control" name="description" type="text"
+                               th:value="${eventToBeUpdated.getDescription()}">
+                    </div>
+                    <div class="form-group">
+                        <label for="startDateTime">Date de début:</label>
+                        <input id="startDateTime" class="form-control" name="startDateTime" type="text"
+                               th:value="${eventToBeUpdated.getStartDateTime()}">
+                    </div>
+                    <div class="form-group">
+                        <label for="endDateTime">Date de fin:</label>
+                        <input id="endDateTime" class="form-control" name="endDateTime" type="text"
+                               th:value="${eventToBeUpdated.getEndDateTime()}">
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location:</label>
+                        <input id="location" class="form-control" name="location" type="text"
+                               th:value="${eventToBeUpdated.getLocation()}">
+                    </div>
+                    <div class="form-group">
+                        <label for="organisateurs">Organisateurs:</label>
+                        <select id="organisateurs" class="form-control" name="organisateurIds" multiple>
+                            <!-- Parcourez la liste des organisateurs -->
+                            <option th:each="organisateur : ${organisateurs}"
+                                    th:value="${organisateur.id}"
+                                    th:text="${organisateur.name}"
+                                    th:selected="${eventToBeUpdated.organisateurs != null and eventToBeUpdated.organisateurs.contains(organisateur)}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-primary" type="submit">Modifier</button>
+                        <a class="btn btn-secondary" href="/getEventsList">Retour</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</html>

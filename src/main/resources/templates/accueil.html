@@ -1,0 +1,474 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+    <meta charset="utf-8">
+    <title>TheEvent Accueil</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicons -->
+    <link href="img/favicon.png" rel="icon">
+    <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800" rel="stylesheet">
+
+    <!-- Bootstrap CSS File -->
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Libraries CSS Files -->
+    <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/venobox/venobox.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Main Stylesheet File -->
+    <link href="css/style.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<!--==========================
+  Header
+============================-->
+<header id="header">
+    <div class="container">
+
+        <div id="logo" class="pull-left">
+            <!-- Uncomment below if you prefer to use a text logo -->
+            <!-- <h1><a href="#main">C<span>o</span>nf</a></h1>-->
+            <a href="#intro" class="scrollto"><img src="img/logo.png" alt="" title=""></a>
+        </div>
+
+        <nav id="nav-menu-container">
+            <ul class="nav-menu">
+                <li class="menu-active"><a href="#intro">Home</a></li>
+                <li><a href="#about">À propos</a></li>
+                <li><a href="#speakers">À venir</a></li>
+                <li><a href="#venue">Récapitulatif</a></li>
+                <li><a href="#sponsors">Sponsors</a></li>
+                <li class="buy-tickets"><a href="#buy-tickets">Nos Passes</a></li>
+            </ul>
+        </nav><!-- #nav-menu-container -->
+    </div>
+</header><!-- #header -->
+
+<!--==========================
+  Intro Section
+============================-->
+
+<section id="intro">
+    <div class="intro-container wow fadeIn">
+        <h1 class="mb-4 pb-0">Découvrez les événements  <br><span>à venir,</span> achetez des tickets et participez à des expériences extraordinaires !</h1>
+
+       <!-- <a href="/inscription" class="about-btn scrollto" style="float: left; margin-right: 10px;">S'inscrire</a>-->
+        <a href="/login" class="about-btn scrollto" style="float: left;">Administration</a>
+
+    </div>
+</section>
+
+<main id="main">
+
+    <!--==========================
+      About Section
+    ============================-->
+    <section id="about">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <h2>À propos </h2>
+                    <p>Bienvenue sur notre plateforme d'achat de tickets pour événements! Nous vous proposons une expérience simple et sécurisée pour l'achat
+                        de vos billets de concerts, festivals, spectacles de théâtre et plus encore. Explorez notre sélection diversifiée d'événements, bénéficiez de
+                        notre service client dédié et découvrez nos offres spéciales pour rendre votre expérience encore plus mémorable. Merci de choisir notre
+                        plateforme pour tous vos besoins en tickets d'événements</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!--==========================
+      Événements à venirSection
+    ============================-->
+
+    <section id="speakers" class="section schedule">
+        <div class="container">
+            <div class="section-header">
+                <br><br>
+                <h2>Événements à venir</h2>
+                <p>Voici quelques-uns de nos événements</p>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="schedule-contents bg-schedule">
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active schedule-item" id="nov20">
+                                <form method="get" th:action="@{'/accueil#speakers'}">
+                                    <input type="hidden" id="scrollTo" name="scrollTo" >
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Rechercher..." aria-label="Rechercher" aria-describedby="button-addon2" name="keyword" th:value="${keyword}">
+                                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Rechercher</button>
+                                    </div>
+                                </form>
+                                <!-- Conteneur défilant des événements -->
+                                <div style="max-height: 400px; overflow-y: scroll;">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>ID Event</th>
+                                            <th>Nom</th>
+                                            <th>Description</th>
+                                            <th>Date de début</th>
+                                            <th>Date de fin</th>
+                                            <th>Location</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="event : ${listEvents}">
+                                            <td th:text="${event.id}"></td>
+                                            <td th:text="${event.name}"></td>
+                                            <td th:text="${event.description}"></td>
+                                            <td th:text="${event.startDateTime}"></td>
+                                            <td th:text="${event.endDateTime}"></td>
+                                            <td th:text="${event.location}"></td>
+                                            <td>
+                                                <button type="button" class="buy-tickets" style="background-color: #f82249;" data-toggle="modal" data-target="#buy-ticket-modal" data-ticket-type="pro-access">Achetez !</button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Fin du conteneur défilant des événements -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Modal Order Form -->
+        <div id="buy-ticket-modal" class="modal fade">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Acheter des billets</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="/saveParticipant">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="name" placeholder="Votre Nom">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" name="email" placeholder="Votre Email">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="telephone" placeholder="Votre numero">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="event-name" name="event_name">
+                            </div>
+                            <div class="form-group">
+                                <select id="ticket-type" name="type_ticket" class="form-control" >
+                                    <option value="">-- Sélectionnez votre type de billet --</option>
+                                    <option value="standard-access">Accès standard</option>
+                                    <option value="pro-access">Accès Pro</option>
+                                    <option value="premium-access">Accès premium</option>
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" style="background-color: #f82249;" class="btn">Achetez maitenant</button>
+                            </div>
+                        </form>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </section>
+
+
+
+    <!--==========================
+      Venue Section
+    ============================-->
+    <section id="venue" class="wow fadeInUp">
+
+        <div class="container-fluid">
+
+            <div class="section-header">
+                <h2>Récap des événements précédents</h2>
+            </div>
+
+        </div>
+
+        <div class="container-fluid venue-gallery-container">
+            <div class="row no-gutters">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="col-lg-3 col-md-4">
+                    <div class="venue-gallery">
+                        <a href="img/venue-gallery/n1.jpg" class="venobox" data-gall="venue-gallery">
+                            <img src="img/venue-gallery/n1.jpg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="col-lg-3 col-md-4">
+                    <div class="venue-gallery">
+                        <a href="img/venue-gallery/n2.jpg" class="venobox" data-gall="venue-gallery">
+                            <img src="img/venue-gallery/n2.jpg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="venue-gallery">
+                        <a href="img/venue-gallery/n4.jpg" class="venobox" data-gall="venue-gallery">
+                            <img src="img/venue-gallery/n4.jpg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </section>
+
+    <!--==========================
+      Sponsors Section
+    ============================-->
+    <section id="sponsors" class="section-with-bg wow fadeInUp">
+
+        <div class="container">
+            <div class="section-header">
+                <h2>Sponsors</h2>
+            </div>
+
+            <div class="row no-gutters sponsors-wrap clearfix">
+
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <div class="sponsor-logo">
+                        <img src="img/sponsors/1.png" class="img-fluid" alt="">
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <div class="sponsor-logo">
+                        <img src="img/sponsors/2.png" class="img-fluid" alt="">
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <div class="sponsor-logo">
+                        <img src="img/sponsors/3.png" class="img-fluid" alt="">
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <div class="sponsor-logo">
+                        <img src="img/sponsors/4.png" class="img-fluid" alt="">
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <div class="sponsor-logo">
+                        <img src="img/sponsors/5.png" class="img-fluid" alt="">
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <div class="sponsor-logo">
+                        <img src="img/sponsors/6.png" class="img-fluid" alt="">
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <div class="sponsor-logo">
+                        <img src="img/sponsors/7.png" class="img-fluid" alt="">
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <div class="sponsor-logo">
+                        <img src="img/sponsors/8.png" class="img-fluid" alt="">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!--==========================
+      Tickets Section
+    ============================-->
+
+
+    <section id="buy-tickets" class="section-with-bg wow fadeInUp">
+        <div class="container">
+
+            <div class="section-header">
+                <h2>Nos Passes</h2>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card mb-5 mb-lg-0">
+                        <div class="card-body">
+                            <h5 class="card-title text-muted text-uppercase text-center">Accès standard</h5>
+                            <h6 class="card-price text-center">150 MAD</h6>
+                            <hr>
+                            <ul class="fa-ul">
+                                <li><span class="fa-li"><i class="fa fa-check"></i></span>Sièges réguliers</li>
+                                <li><span class="fa-li"><i class="fa fa-check"></i></span>Pause café</li>
+                                <li><span class="fa-li"><i class="fa fa-check"></i></span>Badge personnalisé</li>
+                                <li class="text-muted"><span class="fa-li"><i class="fa fa-times"></i></span>Accès à la communauté</li>
+                                <li class="text-muted"><span class="fa-li"><i class="fa fa-times"></i></span>After Party</li>
+                            </ul>
+                            <hr>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card mb-5 mb-lg-0">
+                        <div class="card-body">
+                            <h5 class="card-title text-muted text-uppercase text-center">Pro Access</h5>
+                            <h6 class="card-price text-center">250 MAD</h6>
+                            <hr>
+                            <ul class="fa-ul">
+                                <li><span class="fa-li"><i class="fa fa-check"></i></span>Sièges réguliers</li>
+                                <li><span class="fa-li"><i class="fa fa-check"></i></span>Pause café</li>
+                                <li><span class="fa-li"><i class="fa fa-check"></i></span>Badge personnalisé</li>
+                                <li><span class="fa-li"><i class="fa fa-check"></i></span>Accès à la communauté</li>
+                                <li class="text-muted"><span class="fa-li"><i class="fa fa-times"></i></span>After Party</li>
+                            </ul>
+                            <hr>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Pro Tier -->
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title text-muted text-uppercase text-center">Premium Access</h5>
+                            <h6 class="card-price text-center">350 MAD</h6>
+                            <hr>
+                            <ul class="fa-ul">
+                                <li><span class="fa-li"><i class="fa fa-check"></i></span>Sièges réguliers</li>
+                                <li><span class="fa-li"><i class="fa fa-check"></i></span>Pause café</li>
+                                <li><span class="fa-li"><i class="fa fa-check"></i></span>Badge personnalisé</li>
+                                <li><span class="fa-li"><i class="fa fa-check"></i></span>Accès à la communauté</li>
+                                <li><span class="fa-li"><i class="fa fa-check"></i></span>After Party</li>
+                            </ul>
+                            <hr>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </section>
+
+
+</main>
+
+
+<!--==========================
+  Footer
+============================-->
+<footer id="footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-3 col-md-6 footer-info">
+                    <img src="img/logo.png" alt="TheEvenet">
+                    <p>Bienvenue sur notre plateforme d'achat de tickets pour événements! Explorez notre sélection diversifiée d'événements, bénéficiez de
+                        notre service client dédié et découvrez nos offres spéciales pour rendre votre expérience encore plus mémorable. </p>
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <div class="col-lg-3 col-md-6 footer-links">
+                    <h4>Liens utiles</h4>
+                    <ul>
+                        <li><i class="fa fa-angle-right"></i><a href="#about">À propos</a></li>
+                        <li><i class="fa fa-angle-right"></i><a href="#speakers">À venir</a></li>
+                        <li><i class="fa fa-angle-right"></i><a href="#venue">Récapitulatif</a></li>
+                        <li><i class="fa fa-angle-right"></i><a href="#sponsors">Sponsors</a></li>
+                    </ul>
+                </div>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <div class="col-lg-3 col-md-6 footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>
+                        <strong>Phone:</strong> +1 5589 55488 55<br>
+                        <strong>Email:</strong> info@example.com<br>
+                    </p>
+
+                    <div class="social-links">
+                        <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                        <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                        <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+                        <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
+                        <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="copyright">
+            &copy; Copyright <strong>TheEvent</strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+            Designed by <a href="#">Inas Mahloul</a>
+        </div>
+    </div>
+</footer><!-- #footer -->
+
+<a href="#" class="back-to-top"><i class="fa fa-angle-up"></i></a>
+
+<!-- JavaScript Libraries -->
+<script src="lib/jquery/jquery.min.js"></script>
+<script src="lib/jquery/jquery-migrate.min.js"></script>
+<script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/superfish/hoverIntent.js"></script>
+<script src="lib/superfish/superfish.min.js"></script>
+<script src="lib/wow/wow.min.js"></script>
+<script src="lib/venobox/venobox.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+<!-- Contact Form JavaScript File -->
+<script src="contactform/contactform.js"></script>
+
+<!-- Template Main Javascript File -->
+<script src="js/main.js"></script>
+</body>
+
+</html>
